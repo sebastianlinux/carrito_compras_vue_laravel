@@ -1951,6 +1951,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -25648,10 +25659,10 @@ var render = function() {
                 _vm._v(" "),
                 _vm._m(3),
                 _vm._v(" "),
-                _vm._m(4),
-                _vm._v(" "),
-                _vm._m(5)
-              ])
+                _vm._m(4)
+              ]),
+              _vm._v(" "),
+              _vm._m(5)
             ]
           )
         ])
@@ -25731,9 +25742,31 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
-        _vm._v("Contactanos")
+    return _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
+          _c("img", {
+            staticStyle: { width: "25px" },
+            attrs: {
+              src: "https://image.flaticon.com/icons/svg/1177/1177568.svg",
+              alt: ""
+            }
+          }),
+          _vm._v("Mi cuenta\n\t\t\t            ")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
+          _c("img", {
+            staticStyle: { width: "25px" },
+            attrs: {
+              src: "https://image.flaticon.com/icons/svg/891/891581.svg",
+              alt: ""
+            }
+          }),
+          _vm._v("Carrito\n\t\t\t            ")
+        ])
       ])
     ])
   }

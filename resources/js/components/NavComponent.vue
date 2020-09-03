@@ -31,10 +31,21 @@
 				        <li class="nav-item">
 				            <a class="nav-link" href="/">Acerca de</a>
 				        </li>
-				        <li class="nav-item">
-				            <a class="nav-link" href="/">Contactanos</a>
-				        </li>
+
 					</ul>
+					<ul class="navbar-nav ml-auto">	
+						
+				        <li class="nav-item">
+				            <a class="nav-link" href="/">
+				            	<img src="https://image.flaticon.com/icons/svg/1177/1177568.svg" style="width:25px" alt="">Mi cuenta
+				            </a>
+				        </li>				        
+				        <li class="nav-item">
+				            <a class="nav-link" href="/">
+				            	<img src="https://image.flaticon.com/icons/svg/891/891581.svg" style="width:25px" alt="">Carrito
+				            </a>
+				        </li>
+					</ul>					
 	      		</div>
 	    </div>
 	   </nav>

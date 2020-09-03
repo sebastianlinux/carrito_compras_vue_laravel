@@ -4,20 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Item;
-use App\Level;
-use App\Video;
-use App\User;
-use Auth;
-use App\Activity;
-use App\Homework;
-use App\UserNotification;
-use App\HomeworkResponse;
-use App\VideoComment;
+use App\Product;
+use App\Category;
 class MainController extends Controller
 {
  	protected function mainView()
- 	{
- 		return view('home.mainView');
+ 	{	
+ 		$product = Product::all();
+ 		$cat = Category::all();
+ 		return view('home.mainView',['product'=>$product,'category'=>$cat]);
  	}
 }
