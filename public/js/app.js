@@ -26000,7 +26000,7 @@ var render = function() {
             _c("br"),
             _c("br"),
             _vm._v(" "),
-            !_vm.payCompleted
+            !_vm.productQuantity && !_vm.payCompleted
               ? _c("h5", [_vm._v("Tu carrito de compras esta vacio")])
               : _vm._e(),
             _vm._v(" "),

@@ -70,7 +70,7 @@
 			
 			<div v-if="">
 				<br><br>
-				<h5 v-if="!payCompleted">Tu carrito de compras esta vacio</h5>
+				<h5 v-if="!productQuantity && !payCompleted">Tu carrito de compras esta vacio</h5>
 				<h5 v-if="payCompleted">Pedido completado con éxito, puedes verificarlo en la sección de pedidos</h5>
 			</div>
 		</div>
