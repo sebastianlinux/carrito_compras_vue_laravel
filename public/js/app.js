@@ -1975,6 +1975,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1987,7 +1990,8 @@ __webpack_require__.r(__webpack_exports__);
       categories: [],
       totalPay: 0,
       productQuantity: 1,
-      newQuantity: 0
+      newQuantity: 0,
+      originalProducts: []
     };
   },
   methods: {
@@ -2025,6 +2029,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
 
+      $("#quantity").html('(' + this.cart.length + ')');
       this.cart[index]['quantity'] = this.newQuantity;
       console.log(this.cart[index]);
     },
@@ -2041,6 +2046,15 @@ __webpack_require__.r(__webpack_exports__);
         alert('error trying connect');
         console.log(error);
       });
+    },
+    filter: function filter(id) {
+      this.products = this.originalProducts;
+      this.products = this.products.filter(function (e) {
+        return e.category_id == id;
+      });
+    },
+    unFilter: function unFilter() {
+      this.products = this.originalProducts;
     }
   },
   mounted: function mounted() {
@@ -2048,6 +2062,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log('response DOWN');
       console.log(response.body);
       this.products = response.body;
+      this.originalProducts = response.body;
     }, function (error) {
       alert('cannot connect.');
       console.log(error);
@@ -25767,19 +25782,41 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _vm._v(".\n\t\t\t"),
           _c("div", { staticClass: "col-md-3 col-cat" }, [
-            _c("b", [_vm._v("Categorias")]),
+            _c("b", { staticClass: "nav-link" }, [_vm._v("Categorias")]),
             _vm._v(" "),
             _c(
               "ul",
               { staticClass: "nav flex-column" },
               [
-                _vm._m(0),
+                _c("li", { staticClass: "nav-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link",
+                      attrs: { href: "javascript:void(0);" },
+                      on: {
+                        click: function($event) {
+                          return _vm.unFilter()
+                        }
+                      }
+                    },
+                    [_vm._v("Todas las categorias")]
+                  )
+                ]),
                 _vm._v(" "),
                 _vm._l(_vm.categories, function(category) {
                   return _c("li", { staticClass: "nav-item" }, [
                     _c(
                       "a",
-                      { staticClass: "nav-link active", attrs: { href: "#" } },
+                      {
+                        staticClass: "nav-link",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.filter(category.id)
+                          }
+                        }
+                      },
                       [_vm._v(_vm._s(category.name))]
                     )
                   ])
@@ -25825,7 +25862,7 @@ var render = function() {
                           "a",
                           {
                             staticClass: "btn btn-primary btn-buy",
-                            attrs: { href: "#" },
+                            attrs: { href: "javascript:void(0);" },
                             on: {
                               click: function($event) {
                                 return _vm.addCart(index)
@@ -25920,14 +25957,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [_c("a", [_vm._v("Todas las categorias")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -26049,16 +26079,20 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("li", { staticClass: "nav-item" }, [
-      _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
-        _c("img", {
-          staticStyle: { width: "25px" },
-          attrs: {
-            src: "https://image.flaticon.com/icons/svg/1177/1177568.svg",
-            alt: ""
-          }
-        }),
-        _vm._v("Mi cuenta\n\t\t\t            ")
-      ])
+      _c(
+        "a",
+        { staticClass: "nav-link", attrs: { href: "javascript:void(0);" } },
+        [
+          _c("img", {
+            staticStyle: { width: "25px" },
+            attrs: {
+              src: "https://image.flaticon.com/icons/svg/1177/1177568.svg",
+              alt: ""
+            }
+          }),
+          _vm._v("Mi cuenta\n\t\t\t            ")
+        ]
+      )
     ])
   },
   function() {

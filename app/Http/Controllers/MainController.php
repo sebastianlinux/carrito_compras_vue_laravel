@@ -57,4 +57,7 @@ class MainController extends Controller
 						->get();
 		return view('home.orders',['order'=>$order]);
 	}
+	protected function about(){
+		return view('home.about');
+	}
 }

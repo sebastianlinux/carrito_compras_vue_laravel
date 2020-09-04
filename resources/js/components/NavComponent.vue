@@ -24,7 +24,7 @@
 					<ul class="navbar-nav ml-auto">	
 						
 				        <li class="nav-item">
-				            <a class="nav-link" href="/">
+				            <a class="nav-link" href="javascript:void(0);">
 				            	<img src="https://image.flaticon.com/icons/svg/1177/1177568.svg" style="width:25px" alt="">Mi cuenta
 				            </a>
 				        </li>				        

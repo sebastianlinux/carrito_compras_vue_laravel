@@ -5,13 +5,16 @@
 		<div class="container-fluid">
 			<div class="row">.
 				<div class="col-md-3 col-cat">
-					<b>Categorias</b>
+					<b class="nav-link">Categorias</b>
 					<ul class="nav flex-column">
-						<li>
-							<a>Todas las categorias</a>
-						</li>
+					<li class="nav-item">
+						<a href="javascript:void(0);" class="nav-link" 
+							v-on:click="unFilter()">Todas las categorias</a>
+					</li>
 					  <li v-for="category in categories" class="nav-item">
-					    <a class="nav-link active" href="#">{{category.name}}</a>
+					    <a class="nav-link"
+					    	v-on:click="filter(category.id)"
+					     href="#">{{category.name}}</a>
 					  </li>
 					</ul>
 				</div>
@@ -27,7 +30,7 @@
 							    <p class="card-text">
 							    $ {{product.price}}
 							</p>
-							    <a href="#" class="btn btn-primary btn-buy"
+							    <a href="javascript:void(0);" class="btn btn-primary btn-buy"
 							    v-on:click="addCart(index)">Agregar/Comprar</a>
 							  </div>
 							</div>	
@@ -78,6 +81,7 @@
 				totalPay : 0,
 				productQuantity: 1,
 				newQuantity : 0,
+				originalProducts : [],
 			}
 		},
 		methods: {
@@ -112,6 +116,7 @@
 						this.totalPay = this.totalPay - parseInt(this.cart[index]['price']);
 					}
 				}
+				$("#quantity").html('('+this.cart.length+')');
 				this.cart[index]['quantity'] =this.newQuantity;
 				console.log(this.cart[index])
 			},
@@ -124,6 +129,15 @@
 					alert('error trying connect');
 					console.log(error)
 				});
+			},
+			filter: function(id){
+				this.products = this.originalProducts;
+				 this.products = this.products.filter(function(e){
+				 	return e.category_id == id;
+				 })
+			},
+			unFilter: function(){
+				this.products = this.originalProducts;
 			}
 		},
 
@@ -133,6 +147,7 @@
 			   console.log('response DOWN')
 			   console.log(response.body)
 			   this.products = response.body;
+			   this.originalProducts = response.body;
 			}, function(error){
 			   alert('cannot connect.');
 			   console.log(error)
