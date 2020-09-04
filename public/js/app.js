@@ -1978,6 +1978,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -25846,7 +25848,7 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _c("div", { staticClass: "card-body" }, [
-                        _c("h5", { staticClass: "card-title" }, [
+                        _c("div", { staticClass: "card-title" }, [
                           _vm._v(_vm._s(product.name))
                         ]),
                         _vm._v(" "),
@@ -25858,10 +25860,16 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
+                        _c("a", { attrs: { href: "/product/" + product.id } }, [
+                          _vm._v("Ver detalle")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [_vm._v(" ")]),
+                        _vm._v(" "),
                         _c(
                           "a",
                           {
-                            staticClass: "btn btn-primary btn-buy",
+                            staticClass: "btn btn-sm btn-primary btn-buy",
                             attrs: { href: "javascript:void(0);" },
                             on: {
                               click: function($event) {

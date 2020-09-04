@@ -17,6 +17,7 @@ Route::group(['middleware' => ['auth']], function(){
 
 });*/
 	Route::get('/','MainController@mainView');
+	Route::get('/product/{id}','MainController@viewProduct');	
 	Route::get('/about','MainController@about');	
 	Route::get('/orders','MainController@orders');
  	Route::get('/listProduct','MainController@listProduct');

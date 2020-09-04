@@ -26,11 +26,13 @@
 							  :src="'/product/'+product.img" 
 							  alt="">
 							  <div class="card-body">
-							    <h5 class="card-title">{{product.name}}</h5>
+							    <div class="card-title">{{product.name}}</div>
 							    <p class="card-text">
 							    $ {{product.price}}
 							</p>
-							    <a href="javascript:void(0);" class="btn btn-primary btn-buy"
+							<a :href="'/product/'+product.id">Ver detalle</a>
+								<div>&nbsp;</div>
+							    <a href="javascript:void(0);" class="btn btn-sm btn-primary btn-buy"
 							    v-on:click="addCart(index)">Agregar/Comprar</a>
 							  </div>
 							</div>	

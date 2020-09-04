@@ -60,4 +60,9 @@ class MainController extends Controller
 	protected function about(){
 		return view('home.about');
 	}
+
+	protected function viewProduct($id){
+
+		return view('home.product',['product'=> Product::find($id)]);
+	}
 }

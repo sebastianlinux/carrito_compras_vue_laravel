@@ -116,7 +116,43 @@ class Product extends Migration
                         'price' => '5100000',
                     'created_at' => $date,
                     'updated_at' => $date
-                ],                               
+                ],  
+                [
+                    'name' => 'Burger ClubHouse',
+                    'category_id' => 3,
+                    'img' => 'burger1.png',
+                    'description' => 'Contiene una fuente de proteinas.',
+                        'price' => '12000',
+                    'created_at' => $date,
+                    'updated_at' => $date
+                ], 
+                [
+                    'name' => 'Big Mac',
+                    'category_id' => 3,
+                    'img' => 'burger2.png',
+                    'description' => 'Acompañada de Papas a la francesa + Cocacola grande.',
+                        'price' => '12000',
+                    'created_at' => $date,
+                    'updated_at' => $date
+                ],                 
+                [
+                    'name' => 'Ensalada',
+                    'category_id' => 3,
+                    'img' => 'salad1.png',
+                    'description' => 'Excelentes verduras para la familia.',
+                        'price' => '12000',
+                    'created_at' => $date,
+                    'updated_at' => $date
+                ],   
+                [
+                    'name' => 'Cajita Feliz',
+                    'category_id' => 3,
+                    'img' => 'box1.png',
+                    'description' => 'A los niños les va a encantar.',
+                        'price' => '12000',
+                    'created_at' => $date,
+                    'updated_at' => $date
+                ],                                                                      
             ]
         );
 
