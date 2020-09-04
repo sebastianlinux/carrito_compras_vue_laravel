@@ -29,9 +29,6 @@
 							    <div class="card-title">{{product.name}}</div>
 							    <p class="card-text">
 							    $ {{product.price}}
-							    <br>
-							    originalIndex
-							    {{product.originalIndex}}
 							</p>
 							<a :href="'/product/'+product.id">Ver detalle</a>
 								<div>&nbsp;</div>

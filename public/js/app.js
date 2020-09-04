@@ -1986,9 +1986,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -25884,12 +25881,6 @@ var render = function() {
                           _vm._v(
                             "\n\t\t\t\t\t\t    $ " +
                               _vm._s(product.price) +
-                              "\n\t\t\t\t\t\t    "
-                          ),
-                          _c("br"),
-                          _vm._v(
-                            "\n\t\t\t\t\t\t    originalIndex\n\t\t\t\t\t\t    " +
-                              _vm._s(product.originalIndex) +
                               "\n\t\t\t\t\t\t"
                           )
                         ]),
