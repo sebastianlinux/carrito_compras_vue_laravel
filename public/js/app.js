@@ -1982,6 +1982,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1993,30 +2000,21 @@ __webpack_require__.r(__webpack_exports__);
       cart: [],
       categories: [],
       totalPay: 0,
-      productQuantity: 1,
+      productQuantity: 0,
       newQuantity: 0,
       originalProducts: [],
-      payCompleted: false
+      payCompleted: false,
+      flagCartFill: false
     };
   },
   methods: {
     addCart: function addCart(index) {
       this.payCompleted = false;
-      /*verifico que el producto ya se encuentra en el array*/
-
-      if (this.products[index]['quantity'] > 0) {
-        /*aumento cantidad*/
-        this.products[index]['quantity'] = this.products[index]['quantity'] + 1;
-      } else {
-        /*si no esta en el array lo guardo*/
-        this.products[index]['quantity'] = 1;
-        this.cart.push(this.products[index]);
-      }
-
+      this.cart[index]['status'] = true;
+      this.cart[index]['quantity'] = parseInt(this.cart[index]['quantity']) + 1;
+      this.productQuantity++;
       this.totalPay = this.totalPay + parseInt(this.products[index]['price']);
-      console.log('Empuje a');
-      console.log(this.products[index]);
-      $("#quantity").html('(' + this.cart.length + ')');
+      $("#quantity").html('(' + this.productQuantity + ')');
     },
     openCartList: function openCartList() {
       $("#cartList").fadeIn(300);
@@ -2028,19 +2026,22 @@ __webpack_require__.r(__webpack_exports__);
       /*obteniendo el valor actualizado de la cantidad*/
       this.newQuantity = $(event.srcElement).val();
 
-      if (this.newQuantity == 0) {
-        this.totalPay = this.totalPay - parseInt(this.cart[index]['price']);
-        this.cart.splice(index, 1);
+      if (this.newQuantity > this.cart[index]['quantity']) {
+        this.productQuantity++;
+        this.cart[index]['quantity'] = this.cart[index]['quantity'] + 1;
+        this.totalPay = this.totalPay + parseInt(this.cart[index]['price']);
       } else {
-        if (this.newQuantity > this.cart[index]['quantity']) {
-          this.totalPay = this.totalPay + parseInt(this.cart[index]['price']);
-        } else {
-          this.totalPay = this.totalPay - parseInt(this.cart[index]['price']);
-        }
+        this.productQuantity = this.productQuantity - 1;
+        this.cart[index]['quantity'] = this.cart[index]['quantity'] - 1;
+        this.totalPay = this.totalPay - parseInt(this.cart[index]['price']);
       }
 
-      $("#quantity").html('(' + this.cart.length + ')');
-      this.cart[index]['quantity'] = this.newQuantity;
+      if (this.newQuantity == 0) {
+        this.cart[index]['status'] = 0;
+        this.cart[index]['quantity'] = 0;
+      } else {}
+
+      $("#quantity").html('(' + this.productQuantity + ')');
       console.log(this.cart[index]);
     },
     pay: function pay(products) {
@@ -2057,7 +2058,8 @@ __webpack_require__.r(__webpack_exports__);
 
         if (response.body.status) {
           _this.cart = [];
-          $("#quantity").html('(' + _this.cart.length + ')');
+          _this.productQuantity = 0;
+          $("#quantity").html('(' + _this.productQuantity + ')');
           _this.payCompleted = true;
         }
       }, function (error) {
@@ -2076,11 +2078,21 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    /*inicia conteo carrito compras cantidad*/
+    $("#quantity").html('(' + this.productQuantity + ')');
     this.$http.get('/listProduct').then(function (response) {
       /*console.log('response DOWN')
       console.log(response.body)*/
       this.products = response.body;
       this.originalProducts = response.body;
+      this.cart = response.body;
+      /*asigno status off a productos de carrito de compras*/
+
+      for (var i = 0; i < this.cart.length; i++) {
+        this.cart[i]['status'] = 0;
+        this.cart[i]['quantity'] = 0;
+        this.products[i]['originalIndex'] = i;
+      }
     }, function (error) {
       alert('cannot connect.');
       console.log(error);
@@ -25872,6 +25884,12 @@ var render = function() {
                           _vm._v(
                             "\n\t\t\t\t\t\t    $ " +
                               _vm._s(product.price) +
+                              "\n\t\t\t\t\t\t    "
+                          ),
+                          _c("br"),
+                          _vm._v(
+                            "\n\t\t\t\t\t\t    originalIndex\n\t\t\t\t\t\t    " +
+                              _vm._s(product.originalIndex) +
                               "\n\t\t\t\t\t\t"
                           )
                         ]),
@@ -25889,7 +25907,7 @@ var render = function() {
                             attrs: { href: "javascript:void(0);" },
                             on: {
                               click: function($event) {
-                                return _vm.addCart(index)
+                                return _vm.addCart(product.originalIndex)
                               }
                             }
                           },
@@ -25911,7 +25929,7 @@ var render = function() {
         { attrs: { id: "cartList" } },
         [
           _c("div", { staticClass: "header" }, [
-            _vm._v("Tus productos "),
+            _vm._v("Tus productos (" + _vm._s(_vm.productQuantity) + ") "),
             _c(
               "span",
               {
@@ -25926,32 +25944,41 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._l(_vm.cart, function(product, index) {
-            return _c("div", { key: product.id }, [
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "col-md-6" }, [
-                  _vm._v("\n\t\t\t\t\t" + _vm._s(product.name) + " \n\t\t\t\t")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-6" }, [
-                  _vm._v("\n\t\t\t\t\tcantidad "),
-                  _c("input", {
-                    staticClass: "product-quantity",
-                    attrs: { type: "number" },
-                    domProps: { value: product.quantity },
-                    on: {
-                      change: function($event) {
-                        return _vm.updatePrice(index, $event)
-                      }
-                    }
-                  })
-                ])
-              ])
+          _vm._l(_vm.cart, function(pro_cart, index) {
+            return _c("div", { key: pro_cart.id }, [
+              pro_cart.status
+                ? _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6 " }, [
+                      _c("figure", [
+                        _c("img", {
+                          staticClass: "img-fluid",
+                          attrs: { src: "product/" + pro_cart.img, alt: "" }
+                        }),
+                        _vm._v(" "),
+                        _c("figcaption", [_vm._v(_vm._s(pro_cart.name))])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6 col-cart-quantity" }, [
+                      _vm._v("\n\t\t\t\t\tcantidad "),
+                      _c("input", {
+                        staticClass: "product-quantity",
+                        attrs: { type: "number" },
+                        domProps: { value: pro_cart.quantity },
+                        on: {
+                          change: function($event) {
+                            return _vm.updatePrice(index, $event)
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                : _vm._e()
             ])
           }),
           _vm._v(" "),
-          _vm.cart.length
-            ? _c("div", [
+          _vm.productQuantity
+            ? _c("div", { staticClass: "mb-5" }, [
                 _c(
                   "button",
                   {
@@ -25969,24 +25996,22 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          !_vm.cart.length
-            ? _c("div", [
-                _c("br"),
-                _c("br"),
-                _vm._v(" "),
-                !_vm.payCompleted
-                  ? _c("h5", [_vm._v("Tu carrito de compras esta vacio")])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.payCompleted
-                  ? _c("h5", [
-                      _vm._v(
-                        "Pedido completado con éxito, puedes verificarlo en la sección de pedidos"
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            : _vm._e()
+          _c("div", [
+            _c("br"),
+            _c("br"),
+            _vm._v(" "),
+            !_vm.payCompleted
+              ? _c("h5", [_vm._v("Tu carrito de compras esta vacio")])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.payCompleted
+              ? _c("h5", [
+                  _vm._v(
+                    "Pedido completado con éxito, puedes verificarlo en la sección de pedidos"
+                  )
+                ])
+              : _vm._e()
+          ])
         ],
         2
       )

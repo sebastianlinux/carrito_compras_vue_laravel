@@ -29,11 +29,14 @@
 							    <div class="card-title">{{product.name}}</div>
 							    <p class="card-text">
 							    $ {{product.price}}
+							    <br>
+							    originalIndex
+							    {{product.originalIndex}}
 							</p>
 							<a :href="'/product/'+product.id">Ver detalle</a>
 								<div>&nbsp;</div>
 							    <a href="javascript:void(0);" class="btn btn-sm btn-primary btn-buy"
-							    v-on:click="addCart(index)">Agregar/Comprar</a>
+							    v-on:click="addCart(product.originalIndex)">Agregar/Comprar</a>
 							  </div>
 							</div>	
 						</div>
@@ -43,25 +46,29 @@
 			</div>
 		</div>
 		<div id="cartList">
-			<div class="header">Tus productos <span class="float-right close-cartList"
+			<div class="header">Tus productos ({{productQuantity}}) <span class="float-right close-cartList"
 			 v-on:click="closeCartList()">X</span></div>
-			<div v-for="(product,index) in cart" :key="product.id">
-				<div class="row">
-					<div class="col-md-6">
-						{{product.name}} 
+			<div v-for="(pro_cart,index) in cart" :key="pro_cart.id">
+				<div class="row" v-if="pro_cart.status">
+					<div class="col-md-6 ">
+						<figure>
+							<img class="img-fluid" :src="'product/'+pro_cart.img" alt="">
+							<figcaption>{{pro_cart.name}}</figcaption>
+						</figure>
+						
 					</div>
-					<div class="col-md-6">
-						cantidad <input @change="updatePrice(index,$event)"  type="number" v-bind:value="product.quantity" class="product-quantity">
+					<div class="col-md-6 col-cart-quantity">
+						cantidad <input @change="updatePrice(index,$event)"  type="number" v-bind:value="pro_cart.quantity" class="product-quantity">
 					</div>
 				</div>
 				
 			</div>
-			<div v-if="cart.length">
+			<div v-if="productQuantity" class="mb-5">
 				<button  class="btn btn-success" v-on:click="pay(cart)">Realizar pago</button>	
 				<div>Total a pagar: {{totalPay}}</div>
 			</div>
 			
-			<div v-if="!cart.length">
+			<div v-if="">
 				<br><br>
 				<h5 v-if="!payCompleted">Tu carrito de compras esta vacio</h5>
 				<h5 v-if="payCompleted">Pedido completado con éxito, puedes verificarlo en la sección de pedidos</h5>
@@ -83,29 +90,24 @@
 				cart: [],
 				categories: [],
 				totalPay : 0,
-				productQuantity: 1,
+				productQuantity: 0,
 				newQuantity : 0,
 				originalProducts : [],
 				payCompleted : false,
+				flagCartFill : false,
 			}
 		},
 		methods: {
 			addCart: function(index){
 				this.payCompleted=false;
-				/*verifico que el producto ya se encuentra en el array*/
-				if(this.products[index]['quantity']>0){
-					/*aumento cantidad*/
-					this.products[index]['quantity'] = this.products[index]['quantity']+1;
-				}else{
-					/*si no esta en el array lo guardo*/
-					this.products[index]['quantity'] = 1;
-					this.cart.push(this.products[index]);
-					
-				}
+				this.cart[index]['status'] = true;
+				this.cart[index]['quantity'] = parseInt(this.cart[index]['quantity'])+1;
+	
+				
+				
+ 				this.productQuantity++;
 				this.totalPay = this.totalPay+ parseInt(this.products[index]['price']);
-				console.log('Empuje a')
-				console.log(this.products[index])
-				$("#quantity").html('('+this.cart.length+')');
+				$("#quantity").html('('+this.productQuantity+')');
 			},
 			openCartList: function(){
 				$("#cartList").fadeIn(300);
@@ -116,18 +118,26 @@
 			updatePrice: function(index,event){
 				/*obteniendo el valor actualizado de la cantidad*/
 				this.newQuantity =  $(event.srcElement).val();
+
+				if(this.newQuantity>this.cart[index]['quantity']){
+					this.productQuantity++;
+					this.cart[index]['quantity'] = this.cart[index]['quantity']+1;
+					this.totalPay = this.totalPay + parseInt(this.cart[index]['price']);
+	
+				}else{  
+					this.productQuantity = this.productQuantity-1;
+					this.cart[index]['quantity'] = this.cart[index]['quantity']-1;
+				this.totalPay = this.totalPay - parseInt(this.cart[index]['price']);
+				} 
 				if(this.newQuantity==0){
-					this.totalPay = this.totalPay - parseInt(this.cart[index]['price']);
-					this.cart.splice(index, 1);
+				 
+					this.cart[index]['status'] = 0;
+					this.cart[index]['quantity'] = 0;
 				}else{
-					if(this.newQuantity > this.cart[index]['quantity']){
-						this.totalPay = this.totalPay + parseInt(this.cart[index]['price']);
-					}else{
-						this.totalPay = this.totalPay - parseInt(this.cart[index]['price']);
-					}
+ 	
+
 				}
-				$("#quantity").html('('+this.cart.length+')');
-				this.cart[index]['quantity'] =this.newQuantity;
+				$("#quantity").html('('+this.productQuantity+')');
 				console.log(this.cart[index])
 			},
 			pay: function(products){
@@ -137,8 +147,10 @@
 					/*si el pedido se realizo correctamente*/
 					if(response.body.status){
 						this.cart = [];
-						$("#quantity").html('('+this.cart.length+')');
+						this.productQuantity=0;
+						$("#quantity").html('('+this.productQuantity+')');
 						this.payCompleted=true;
+
 					}
 				},function(error){
 					alert('error trying connect');
@@ -157,12 +169,20 @@
 		},
 
 		mounted(){
-			
+			/*inicia conteo carrito compras cantidad*/
+			$("#quantity").html('('+this.productQuantity+')');
 			this.$http.get('/listProduct').then(function(response){
 			   /*console.log('response DOWN')
 			   console.log(response.body)*/
 			   this.products = response.body;
 			   this.originalProducts = response.body;
+			   this.cart = response.body
+			   /*asigno status off a productos de carrito de compras*/
+			   for(var i =0;i<this.cart.length;i++){
+			   		this.cart[i]['status'] = 0;
+			   		this.cart[i]['quantity'] = 0;
+			   		this.products[i]['originalIndex'] = i;
+			   }
 			}, function(error){
 			   alert('cannot connect.');
 			   console.log(error)

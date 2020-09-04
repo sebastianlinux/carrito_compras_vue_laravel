@@ -38,7 +38,9 @@ class MainController extends Controller
  								"product_id" => $value['id'],
  								'quantity' => $value['quantity']
  							];
- 			OrderProduct::create($order_product);
+ 			if($value['status']){
+ 				OrderProduct::create($order_product);
+ 			}
  		}
  		return response(["status"=>true]);
  	}
