@@ -26066,7 +26066,7 @@ var render = function() {
             "div",
             {
               staticClass: "navbar-collapse collapse",
-              attrs: { id: "navbar-academy" }
+              attrs: { id: "navbar-test" }
             },
             [
               _vm._m(1),
@@ -26106,7 +26106,7 @@ var staticRenderFns = [
         attrs: {
           type: "button",
           "data-toggle": "collapse",
-          "data-target": "#navbar9"
+          "data-target": "#navbar-test"
         }
       },
       [_c("span", { staticClass: "navbar-toggler-icon" })]

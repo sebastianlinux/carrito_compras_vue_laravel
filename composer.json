@@ -51,6 +51,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+     "test": "echo \"Error: no test specified\" && exit 1",
+      "watch": "webpack --watch",
+      "build": "webpack",        
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
