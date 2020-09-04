@@ -16,6 +16,7 @@ class Order extends Migration
         Schema::create('order', function (Blueprint $table) {
             $table->id();
             $table->string('description')->default('Un pago a través del sistema');
+            $table->double('total_pay');
             $table->timestamps();
         });
     }

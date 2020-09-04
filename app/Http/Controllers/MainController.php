@@ -27,8 +27,34 @@ class MainController extends Controller
  	}
  	protected function pay(Request $r){
  		$products = $r->get('cart');
- 		foreach ($product as $key => $value) {
- 			# code...
+ 		$total_pay = trim($r->get('total_pay'));
+ 		$order = ['description'=> 'Un pago realizado a través del sistema','total_pay' => $total_pay];
+
+ 		/*creamos la orden*/
+ 		$new_order = Order::create($order);
+
+ 		foreach ($products as $key => $value) {
+ 			$order_product = ["order_id"=>$new_order->id,
+ 								"product_id" => $value['id'],
+ 								'quantity' => $value['quantity']
+ 							];
+ 			OrderProduct::create($order_product);
  		}
  	}
+
+ 	private function array_map_assoc( $callback , $array ){
+		$r = array();
+		foreach ($array as $key=>$value)
+		$r[$key] = $callback($key,$value);
+		return $r;
+	}
+
+	protected function orders(){
+
+		$order = Order::select('*')
+						->with('products')
+						->orderBy('id','desc')
+						->get();
+		return view('home.orders',['order'=>$order]);
+	}
 }

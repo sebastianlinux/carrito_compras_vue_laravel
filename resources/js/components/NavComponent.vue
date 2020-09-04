@@ -10,26 +10,14 @@
 	        	<div class="navbar-collapse collapse" id="navbar-academy">
 					<ul class="navbar-nav ml-auto">	
 						<li class="nav-item">
-							<a class="nav-link" href="javascript:void(0);"
-					       		 >
-						         <img src="http://127.0.0.1:8000/icon/friend.svg" alt="" class="img-fluid icon-nav-real">
-					        </a>
-						</li>
-						<li class="nav-item" >
-						    <a class="nav-link"  
-						    	 href="javascript:void(0);">
-						        <img src="http://127.0.0.1:8000/icon/notification.svg" alt="" class="img-fluid icon-nav-real" >
-						    </a>
-						</li>
-						<li class="nav-item">
 				            <a class="nav-link" href="/">Inicio</a>
 				        </li>
 
 				        <li class="nav-item">
-				            <a class="nav-link" href="/">Pedidos</a>
+				            <a class="nav-link" href="/orders">Pedidos</a>
 				        </li>
 				        <li class="nav-item">
-				            <a class="nav-link" href="/">Acerca de</a>
+				            <a class="nav-link" href="/about">Acerca de</a>
 				        </li>
 
 					</ul>

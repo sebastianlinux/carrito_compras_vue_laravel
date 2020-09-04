@@ -5,8 +5,11 @@
 		<div class="container-fluid">
 			<div class="row">.
 				<div class="col-md-3 col-cat">
-					Categorias
+					<b>Categorias</b>
 					<ul class="nav flex-column">
+						<li>
+							<a>Todas las categorias</a>
+						</li>
 					  <li v-for="category in categories" class="nav-item">
 					    <a class="nav-link active" href="#">{{category.name}}</a>
 					  </li>
@@ -114,7 +117,7 @@
 			},
 			pay: function(products){
 				var token=window.Laravel.csrfToken;
-				this.$http.post('/pay',{cart:this.cart,_token:token}).then(response =>{
+				this.$http.post('/pay',{cart:this.cart,total_pay:this.totalPay,_token:token}).then(response =>{
 					console.log('PAGADO');
 					console.log(response)
 				},function(error){

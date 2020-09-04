@@ -1972,6 +1972,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2029,6 +2032,7 @@ __webpack_require__.r(__webpack_exports__);
       var token = window.Laravel.csrfToken;
       this.$http.post('/pay', {
         cart: this.cart,
+        total_pay: this.totalPay,
         _token: token
       }).then(function (response) {
         console.log('PAGADO');
@@ -2070,18 +2074,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -25775,20 +25767,25 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _vm._v(".\n\t\t\t"),
           _c("div", { staticClass: "col-md-3 col-cat" }, [
-            _vm._v("\n\t\t\t\tCategorias\n\t\t\t\t"),
+            _c("b", [_vm._v("Categorias")]),
+            _vm._v(" "),
             _c(
               "ul",
               { staticClass: "nav flex-column" },
-              _vm._l(_vm.categories, function(category) {
-                return _c("li", { staticClass: "nav-item" }, [
-                  _c(
-                    "a",
-                    { staticClass: "nav-link active", attrs: { href: "#" } },
-                    [_vm._v(_vm._s(category.name))]
-                  )
-                ])
-              }),
-              0
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._l(_vm.categories, function(category) {
+                  return _c("li", { staticClass: "nav-item" }, [
+                    _c(
+                      "a",
+                      { staticClass: "nav-link active", attrs: { href: "#" } },
+                      [_vm._v(_vm._s(category.name))]
+                    )
+                  ])
+                })
+              ],
+              2
             )
           ]),
           _vm._v(" "),
@@ -25923,7 +25920,14 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [_c("a", [_vm._v("Todas las categorias")])])
+  }
+]
 render._withStripped = true
 
 
@@ -26022,48 +26026,19 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("ul", { staticClass: "navbar-nav ml-auto" }, [
       _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "javascript:void(0);" } },
-          [
-            _c("img", {
-              staticClass: "img-fluid icon-nav-real",
-              attrs: { src: "http://127.0.0.1:8000/icon/friend.svg", alt: "" }
-            })
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "javascript:void(0);" } },
-          [
-            _c("img", {
-              staticClass: "img-fluid icon-nav-real",
-              attrs: {
-                src: "http://127.0.0.1:8000/icon/notification.svg",
-                alt: ""
-              }
-            })
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
         _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
           _vm._v("Inicio")
         ])
       ]),
       _vm._v(" "),
       _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "/orders" } }, [
           _vm._v("Pedidos")
         ])
       ]),
       _vm._v(" "),
       _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "/" } }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "/about" } }, [
           _vm._v("Acerca de")
         ])
       ])

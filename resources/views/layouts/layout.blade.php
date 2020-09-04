@@ -9,7 +9,6 @@
 	<link rel="stylesheet" href="{{asset('css/app.min.css')}}">
 	<title>🥇 Kubo store</title>
 	<script src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
-    <script src="{{asset('js/pusher.min.js')}}"></script>
 	<meta id="csrf_token" name="csrf-token" content="{{ csrf_token() }}">
 
 </head>
@@ -31,7 +30,6 @@
 
 	<script src="{{asset('js/popper.min.js')}}"></script>
 	<script src="{{asset('js/bootstrap.min.js')}}"></script>
-	<script src="{{asset('js/angular.min.js')}}"></script>
 
 		 <script>
           window.Laravel = <?php echo json_encode([
