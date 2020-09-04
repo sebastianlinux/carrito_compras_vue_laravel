@@ -19,3 +19,4 @@ Route::group(['middleware' => ['auth']], function(){
 	Route::get('/','MainController@mainView');
  	Route::get('/listProduct','MainController@listProduct');
  	Route::get('/listCategories','MainController@listCategories'); 	
+ 	Route::post('/pay','MainController@pay'); 

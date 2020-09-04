@@ -37,18 +37,22 @@
 		<div id="cartList">
 			<div class="header">Tus productos <span class="float-right close-cartList"
 			 v-on:click="closeCartList()">X</span></div>
-			<div v-for="product in cart" :key="product.id">
+			<div v-for="(product,index) in cart" :key="product.id">
 				<div class="row">
 					<div class="col-md-6">
 						{{product.name}} 
 					</div>
 					<div class="col-md-6">
-						cantidad <input type="number" value="1" class="product-quantity">
+						cantidad <input @change="updatePrice(index,$event)"  type="number" v-bind:value="product.quantity" class="product-quantity">
 					</div>
 				</div>
 				
 			</div>
-			<button v-if="cart.length" class="btn btn-success">Realizar pago</button>
+			<div v-if="cart.length">
+				<button  class="btn btn-success" v-on:click="pay(cart)">Realizar pago</button>	
+				<div>Total a pagar: {{totalPay}}</div>
+			</div>
+			
 			<div v-if="!cart.length">
 				<h5>Tu carrito de compras esta vacio</h5>
 			</div>
@@ -68,11 +72,22 @@
 				products: [],
 				cart: [],
 				categories: [],
+				totalPay : 0,
+				productQuantity: 1,
+				newQuantity : 0,
 			}
 		},
 		methods: {
 			addCart: function(index){
-				this.cart.push(this.products[index]);
+				if(this.products[index]['quantity']>0){
+					this.products[index]['quantity'] = this.products[index]['quantity']+1;
+				}else{
+					this.products[index]['quantity'] = 1;
+					this.cart.push(this.products[index]);
+				}
+				this.totalPay = this.totalPay+ parseInt(this.products[index]['price']);
+				console.log('Empuje a')
+				console.log(this.products[index])
 				$("#quantity").html('('+this.cart.length+')');
 			},
 			openCartList: function(){
@@ -80,6 +95,32 @@
 			},
 			closeCartList: function(){
 				$("#cartList").fadeOut(300);
+			},
+			updatePrice: function(index,event){
+				/*obteniendo el valor actualizado de la cantidad*/
+				this.newQuantity =  $(event.srcElement).val();
+				if(this.newQuantity==0){
+					this.totalPay = this.totalPay - parseInt(this.cart[index]['price']);
+					this.cart.splice(index, 1);
+				}else{
+					if(this.newQuantity > this.cart[index]['quantity']){
+						this.totalPay = this.totalPay + parseInt(this.cart[index]['price']);
+					}else{
+						this.totalPay = this.totalPay - parseInt(this.cart[index]['price']);
+					}
+				}
+				this.cart[index]['quantity'] =this.newQuantity;
+				console.log(this.cart[index])
+			},
+			pay: function(products){
+				var token=window.Laravel.csrfToken;
+				this.$http.post('/pay',{cart:this.cart,_token:token}).then(response =>{
+					console.log('PAGADO');
+					console.log(response)
+				},function(error){
+					alert('error trying connect');
+					console.log(error)
+				});
 			}
 		},
 

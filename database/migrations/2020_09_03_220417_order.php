@@ -13,7 +13,11 @@ class Order extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('order', function (Blueprint $table) {
+            $table->id();
+            $table->string('description')->default('Un pago a través del sistema');
+            $table->timestamps();
+        });
     }
 
     /**
