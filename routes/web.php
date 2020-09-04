@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['auth']], function(){
 
 });*/
-	Route::get('/','MainController@mainView')->name('setDataUser');
- 
+	Route::get('/','MainController@mainView');
+ 	Route::get('/listProduct','MainController@listProduct');
+ 	Route::get('/listCategories','MainController@listCategories'); 	

@@ -26,7 +26,7 @@
 				        </li>
 
 				        <li class="nav-item">
-				            <a class="nav-link" href="/">Promociones</a>
+				            <a class="nav-link" href="/">Pedidos</a>
 				        </li>
 				        <li class="nav-item">
 				            <a class="nav-link" href="/">Acerca de</a>
@@ -40,9 +40,9 @@
 				            	<img src="https://image.flaticon.com/icons/svg/1177/1177568.svg" style="width:25px" alt="">Mi cuenta
 				            </a>
 				        </li>				        
-				        <li class="nav-item">
-				            <a class="nav-link" href="/">
-				            	<img src="https://image.flaticon.com/icons/svg/891/891581.svg" style="width:25px" alt="">Carrito
+				        <li class="nav-item" v-on:click="llamado()">
+				            <a class="nav-link" href="javascript:void(0);">
+				            	<img src="https://image.flaticon.com/icons/svg/891/891581.svg" style="width:25px" alt="">Carrito  <span id="quantity" class="bold"></span>
 				            </a>
 				        </li>
 					</ul>					
@@ -53,16 +53,20 @@
 </template>	
 
 <script>
-
 	export default{	
+	
 		data(){
 			return {
 				user : []
 			}
 		},
-
+		props : {
+			callTo: "",
+		},		
 		methods: {
-
+			llamado(){
+				this.callTo('openCartList');
+			}
 		},
 
 		mounted(){

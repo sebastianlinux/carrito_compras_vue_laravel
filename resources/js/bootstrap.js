@@ -24,8 +24,8 @@ window._ = require('lodash');
 window.Vue = require('vue');
 import vueResource from 'vue-resource'
 Vue.use(vueResource);
+Vue.component('main-component', require('./components/MainComponent.vue').default);
 Vue.component('nav-component', require('./components/NavComponent.vue').default);
-
 
 const app = new Vue({
     el: '#app'
