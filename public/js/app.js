@@ -1980,6 +1980,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1993,14 +1995,20 @@ __webpack_require__.r(__webpack_exports__);
       totalPay: 0,
       productQuantity: 1,
       newQuantity: 0,
-      originalProducts: []
+      originalProducts: [],
+      payCompleted: false
     };
   },
   methods: {
     addCart: function addCart(index) {
+      this.payCompleted = false;
+      /*verifico que el producto ya se encuentra en el array*/
+
       if (this.products[index]['quantity'] > 0) {
+        /*aumento cantidad*/
         this.products[index]['quantity'] = this.products[index]['quantity'] + 1;
       } else {
+        /*si no esta en el array lo guardo*/
         this.products[index]['quantity'] = 1;
         this.cart.push(this.products[index]);
       }
@@ -2036,6 +2044,8 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.cart[index]);
     },
     pay: function pay(products) {
+      var _this = this;
+
       var token = window.Laravel.csrfToken;
       this.$http.post('/pay', {
         cart: this.cart,
@@ -2043,7 +2053,13 @@ __webpack_require__.r(__webpack_exports__);
         _token: token
       }).then(function (response) {
         console.log('PAGADO');
-        console.log(response);
+        /*si el pedido se realizo correctamente*/
+
+        if (response.body.status) {
+          _this.cart = [];
+          $("#quantity").html('(' + _this.cart.length + ')');
+          _this.payCompleted = true;
+        }
       }, function (error) {
         alert('error trying connect');
         console.log(error);
@@ -2061,8 +2077,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.$http.get('/listProduct').then(function (response) {
-      console.log('response DOWN');
-      console.log(response.body);
+      /*console.log('response DOWN')
+      console.log(response.body)*/
       this.products = response.body;
       this.originalProducts = response.body;
     }, function (error) {
@@ -25955,7 +25971,20 @@ var render = function() {
           _vm._v(" "),
           !_vm.cart.length
             ? _c("div", [
-                _c("h5", [_vm._v("Tu carrito de compras esta vacio")])
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                !_vm.payCompleted
+                  ? _c("h5", [_vm._v("Tu carrito de compras esta vacio")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.payCompleted
+                  ? _c("h5", [
+                      _vm._v(
+                        "Pedido completado con éxito, puedes verificarlo en la sección de pedidos"
+                      )
+                    ])
+                  : _vm._e()
               ])
             : _vm._e()
         ],

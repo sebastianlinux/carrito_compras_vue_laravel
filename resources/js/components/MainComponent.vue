@@ -62,7 +62,9 @@
 			</div>
 			
 			<div v-if="!cart.length">
-				<h5>Tu carrito de compras esta vacio</h5>
+				<br><br>
+				<h5 v-if="!payCompleted">Tu carrito de compras esta vacio</h5>
+				<h5 v-if="payCompleted">Pedido completado con éxito, puedes verificarlo en la sección de pedidos</h5>
 			</div>
 		</div>
 	</div>
@@ -84,15 +86,21 @@
 				productQuantity: 1,
 				newQuantity : 0,
 				originalProducts : [],
+				payCompleted : false,
 			}
 		},
 		methods: {
 			addCart: function(index){
+				this.payCompleted=false;
+				/*verifico que el producto ya se encuentra en el array*/
 				if(this.products[index]['quantity']>0){
+					/*aumento cantidad*/
 					this.products[index]['quantity'] = this.products[index]['quantity']+1;
 				}else{
+					/*si no esta en el array lo guardo*/
 					this.products[index]['quantity'] = 1;
 					this.cart.push(this.products[index]);
+					
 				}
 				this.totalPay = this.totalPay+ parseInt(this.products[index]['price']);
 				console.log('Empuje a')
@@ -126,7 +134,12 @@
 				var token=window.Laravel.csrfToken;
 				this.$http.post('/pay',{cart:this.cart,total_pay:this.totalPay,_token:token}).then(response =>{
 					console.log('PAGADO');
-					console.log(response)
+					/*si el pedido se realizo correctamente*/
+					if(response.body.status){
+						this.cart = [];
+						$("#quantity").html('('+this.cart.length+')');
+						this.payCompleted=true;
+					}
 				},function(error){
 					alert('error trying connect');
 					console.log(error)
@@ -146,8 +159,8 @@
 		mounted(){
 			
 			this.$http.get('/listProduct').then(function(response){
-			   console.log('response DOWN')
-			   console.log(response.body)
+			   /*console.log('response DOWN')
+			   console.log(response.body)*/
 			   this.products = response.body;
 			   this.originalProducts = response.body;
 			}, function(error){
